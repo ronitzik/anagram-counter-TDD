@@ -1,5 +1,6 @@
 import pytest
 from word_tools import count_anagrams
+import time
 
 
 def test_empty_text():
@@ -40,3 +41,20 @@ def test_identical_anagrams():
 
 def test_anagrams_at_the_end():
     assert count_anagrams("abcdabcd", "dcb") == 2
+
+
+def test_count_anagrams_performance():
+    text = "forxxorfxdofr" * 100 
+    word = "for"
+    
+    start_time = time.time()
+   
+    for _ in range(1000):
+        count_anagrams(text, word)
+    
+    # Calculate the elapsed time in milliseconds
+    elapsed_time = (time.time() - start_time) * 1000  
+    
+    print(f"Time taken to run count_anagrams 1000 times: {elapsed_time:.2f} ms")
+    
+    assert elapsed_time <  3048.47, f"Performance test failed. Took {elapsed_time:.2f} ms."
